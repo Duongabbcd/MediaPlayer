@@ -13,3 +13,18 @@
 .externalNativeBuild
 .cxx
 local.properties
+.idea
+build
+release
+# Android Studio
+# External tool builders
+.externalToolBuilders/ks
+
+# CDT-specific
+.cproject
+
+# PDT-specific
+.buildpath
+
+# Windows image file caches
+Thumbs

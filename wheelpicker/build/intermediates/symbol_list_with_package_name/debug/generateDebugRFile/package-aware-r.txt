@@ -1,5 +1,0 @@
-com.cheonjaeung.powerwheelpicker.android
-attr circular
-attr selector_height
-attr selector_width
-styleable WheelPicker android_orientation circular selector_height selector_width
