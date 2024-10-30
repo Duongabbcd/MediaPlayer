@@ -1,0 +1,8 @@
+int attr circular 0x0
+int attr selector_height 0x0
+int attr selector_width 0x0
+int[] styleable WheelPicker { 0x10100c4, 0x0, 0x0, 0x0 }
+int styleable WheelPicker_android_orientation 0
+int styleable WheelPicker_circular 1
+int styleable WheelPicker_selector_height 2
+int styleable WheelPicker_selector_width 3

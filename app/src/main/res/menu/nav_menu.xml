@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navYoutube"
+        android:icon="@drawable/youtube_icon"
+        android:title="@string/time_sleeper" />
+    <item
+        android:id="@+id/navUrl"
+        android:icon="@drawable/link_icon"
+        android:title="@string/play_online" />
+
+    <item
+        android:id="@+id/aboutNav"
+        android:icon="@drawable/favourite_empty_icon"
+        android:title="@string/favourite" />
+    <item
+        android:id="@+id/exitNav"
+        android:icon="@drawable/exit_icon"
+        android:title="@string/exit" />
+</menu>

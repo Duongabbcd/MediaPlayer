@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:backgroundTint="#000015"
+    android:overScrollMode="never"
+    android:id="@+id/nestedScrollView"
+    android:background="@drawable/bottom_sheet_bg"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/stop_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/stop_count_down"
+            android:layout_marginStart="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@color/transparent"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="20sp"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/timePickerDialogs"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:orientation="horizontal"
+            android:layout_marginVertical="20dp"
+            app:layout_constraintTop_toBottomOf="@id/stop_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.cheonjaeung.powerwheelpicker.android.WheelPicker
+                android:id="@+id/wheelPicker1"
+                android:layout_width="60dp"
+                android:layout_weight="1"
+                android:layout_height="160dp"
+                android:orientation="vertical"
+                app:selector_height="50dp"
+                android:overScrollMode="never"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                app:circular="true"
+                android:background="@drawable/time_picker_background"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/wheelPicker2"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <View
+                android:layout_width="60dp"
+                android:layout_height="50dp"
+                android:background="#5B000015"
+                app:layout_constraintStart_toStartOf="@id/wheelPicker1"
+                app:layout_constraintEnd_toEndOf="@id/wheelPicker1"
+                app:layout_constraintTop_toTopOf="@id/wheelPicker1"
+                app:layout_constraintBottom_toBottomOf="@id/wheelPicker1"/>
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/colon"
+                app:layout_constraintStart_toStartOf="@id/wheelPicker1"
+                app:layout_constraintBottom_toBottomOf="@id/wheelPicker1"
+                app:layout_constraintTop_toTopOf="@id/wheelPicker1"
+                app:layout_constraintEnd_toEndOf="@id/wheelPicker2"/>
+
+            <com.cheonjaeung.powerwheelpicker.android.WheelPicker
+                android:id="@+id/wheelPicker2"
+                android:layout_width="60dp"
+                android:layout_weight="1"
+                android:layout_height="160dp"
+                android:orientation="vertical"
+                app:selector_height="50dp"
+                android:overScrollMode="never"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                android:background="@drawable/time_picker_background"
+                app:layout_constraintStart_toEndOf="@id/wheelPicker1"
+                app:layout_constraintEnd_toStartOf="@id/wheelPicker3"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <View
+                android:layout_width="60dp"
+                android:layout_height="50dp"
+                android:background="#5B000015"
+                app:layout_constraintStart_toStartOf="@id/wheelPicker2"
+                app:layout_constraintEnd_toEndOf="@id/wheelPicker2"
+                app:layout_constraintTop_toTopOf="@id/wheelPicker2"
+                app:layout_constraintBottom_toBottomOf="@id/wheelPicker2"/>
+
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/colon"
+                app:layout_constraintStart_toStartOf="@id/wheelPicker2"
+                app:layout_constraintBottom_toBottomOf="@id/wheelPicker2"
+                app:layout_constraintTop_toTopOf="@id/wheelPicker2"
+                app:layout_constraintEnd_toEndOf="@id/wheelPicker3"/>
+
+            <com.cheonjaeung.powerwheelpicker.android.WheelPicker
+                android:id="@+id/wheelPicker3"
+                android:layout_width="60dp"
+                android:layout_weight="1"
+                android:layout_height="160dp"
+                android:orientation="vertical"
+                android:overScrollMode="never"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                app:selector_height="50dp"
+                android:background="@drawable/time_picker_background"
+                app:layout_constraintStart_toEndOf="@id/wheelPicker2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <View
+                android:layout_width="60dp"
+                android:layout_height="50dp"
+                android:background="#5B000015"
+                app:layout_constraintStart_toStartOf="@id/wheelPicker3"
+                app:layout_constraintEnd_toEndOf="@id/wheelPicker3"
+                app:layout_constraintTop_toTopOf="@id/wheelPicker3"
+                app:layout_constraintBottom_toBottomOf="@id/wheelPicker3"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:id="@+id/timeOptions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/timePickerDialogs"
+            android:gravity="center"
+            android:layout_margin="10dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/fifteenMin"
+                android:text="@string/fifteenMin"
+                android:layout_weight="1"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:layout_width="60dp"
+                android:layout_height="70dp"
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:textSize="12sp"
+                app:cornerRadius="20dp"
+                android:backgroundTint="@color/light_dark"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/thirtyMin"
+                android:text="@string/thirtyMin"
+                android:layout_weight="1"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:layout_width="60dp"
+                android:layout_height="70dp"
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:textSize="12sp"
+                app:cornerRadius="20dp"
+                android:backgroundTint="@color/light_dark"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/fortyFiveMin"
+                android:text="@string/fortyFiveMin"
+                android:layout_weight="1"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:layout_width="60dp"
+                android:layout_height="70dp"
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:textSize="12sp"
+                app:cornerRadius="20dp"
+                android:backgroundTint="@color/light_dark"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/sixtyMin"
+                android:text="@string/sixtyMin"
+                android:layout_weight="1"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:layout_width="60dp"
+                android:layout_height="70dp"
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:textSize="12sp"
+                app:cornerRadius="20dp"
+                android:backgroundTint="@color/light_dark"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btnLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/timeOptions"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/timePickerAddBtn"
+                android:text="@string/add_song"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:layout_margin="10dp"
+                app:cornerRadius="16dp"
+                android:backgroundTint="@color/white"
+                android:textAllCaps="false"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/timePickerCancelBtn"
+                android:text="@string/reset"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:layout_margin="10dp"
+                app:cornerRadius="16dp"
+                android:backgroundTint="@color/orange"
+                android:textAllCaps="false"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"/>
+        </LinearLayout>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.core.widget.NestedScrollView >

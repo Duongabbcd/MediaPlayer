@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.cheonjaeung.powerwheelpicker.android.test.wheelpicker-mergeDebugAndroidTestResources-22:/values-ldltr-v21/values-ldltr-v21.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\ACER\\.gradle\\caches\\transforms-4\\35090090a0d2976d8c621d165deaf67b\\transformed\\appcompat-1.7.0\\res\\values-ldltr-v21\\values-ldltr-v21.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "112",
+                        "endOffsets": "163"
+                    }
+                }
+            ]
+        }
+    ]
+}
