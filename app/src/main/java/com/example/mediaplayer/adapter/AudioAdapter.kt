@@ -5,11 +5,11 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SectionIndexer
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.example.fastscroll.custom_view.adapter.SectionFastScroll
 import com.example.mediaplayer.R
 import com.example.mediaplayer.activity.PlayerActivity
 import com.example.mediaplayer.activity.PlaylistDetailActivity
@@ -18,7 +18,6 @@ import com.example.mediaplayer.databinding.AudioViewBinding
 import com.example.mediaplayer.fragment.basic.PlaylistFragment
 import com.example.mediaplayer.model.Audio
 import com.example.mediaplayer.util.Constant
-import java.util.Locale
 
 
 class AudioAdapter(
@@ -28,7 +27,7 @@ class AudioAdapter(
     private val albumAndArtist: Boolean = false,
     private var songPath: Audio? = null
 
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), SectionIndexer {
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), SectionFastScroll {
 
     private lateinit var context: Context
 
@@ -200,44 +199,7 @@ class AudioAdapter(
         private const val TYPE_ITEM = 1
     }
 
-    override fun getSections(): Array<String> {
-     val sections: MutableList<String> = ArrayList(27)
-        val alphabetFull =  ArrayList<String>()
-        mSectionPositions = ArrayList()
-        val nameSongList = audioList.map { it.title }.filter { it != "" }
-        run {
-            var i = 0
-            val size = nameSongList.size
-            while(i < size) {
-                println("audioList: ${nameSongList[i]}")
-                val section = nameSongList[i][0].uppercase(Locale.getDefault())
-                if(!sections.contains(section)) {
-                    sections.add(section)
-                    mSectionPositions?.add(i)
-                }
-                i++
-            }
-        }
-        for(element in sections) {
-            alphabetFull.add(element.toString())
-        }
-        sectionsTranslator = Constant.sectionsHelper(sections, alphabetFull)
-        println("alphabetFull: $sections")
-        println("alphabetFull: $alphabetFull")
-        println("mSectionPositions: $mSectionPositions")
-        println("sectionsTranslator: $sectionsTranslator")
-        val x: Array<String> =  alphabetFull.toTypedArray()
-        return x
+    override fun getSectionName(position: Int): String {
+        return audioList[position].title
     }
-
-    override fun getPositionForSection(sectionIndex: Int): Int {
-        return mSectionPositions!![sectionsTranslator[sectionIndex]!!].also {
-            println("getPositionForSection: $it")
-        }
-    }
-
-    override fun getSectionForPosition(position: Int): Int {
-       return 0
-    }
-
 }

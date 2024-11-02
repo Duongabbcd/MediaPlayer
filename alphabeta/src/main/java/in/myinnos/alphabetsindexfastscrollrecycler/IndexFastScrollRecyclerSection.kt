@@ -1,19 +1,19 @@
 package `in`.myinnos.alphabetsindexfastscrollrecycler
 
 import android.content.Context
-import android.graphics.*
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.RectF
+import android.graphics.Typeface
 import android.util.Log
-import android.widget.SectionIndexer
 import android.view.MotionEvent
+import android.widget.SectionIndexer
 import androidx.annotation.ColorInt
 import androidx.recyclerview.widget.LinearLayoutManager
-import java.lang.Exception
 import androidx.recyclerview.widget.RecyclerView
 
-/*
- * Created by MyInnos on 31-01-2017.
- * Updated by AbandonedCart 07-2022.
- */   class IndexFastScrollRecyclerSection(
+class IndexFastScrollRecyclerSection(
     context: Context,
     recyclerView: IndexFastScrollRecyclerView
 ) : RecyclerView.AdapterDataObserver() {
@@ -41,7 +41,7 @@ import androidx.recyclerview.widget.RecyclerView
     private var setIndexBarVisibility = true
     private var setSetIndexBarHighLightTextVisibility = false
     private var setIndexBarStrokeVisibility = true
-    var mIndexBarStrokeWidth: Int
+    private var mIndexBarStrokeWidth: Int
 
     @ColorInt
     private var mIndexBarStrokeColor: Int
@@ -110,10 +110,15 @@ import androidx.recyclerview.widget.RecyclerView
                         (mListViewHeight - previewSize) / 2 + previewSize
                     )
                     canvas.drawRoundRect(previewRect, 5 * mDensity, 5 * mDensity, previewPaint)
+                    val x = previewRect.left + (previewSize - previewTextWidth) / 2 - 1
+                    val y =
+                        previewRect.top + (previewSize - (previewTextPaint.descent() - previewTextPaint.ascent())) / 2 - previewTextPaint.ascent()
+                    println("previewTextPaint: $x")
+                    println("previewTextPaint: $y")
                     canvas.drawText(
                         mSections!![mCurrentSection],
-                        previewRect.left + (previewSize - previewTextWidth) / 2 - 1,
-                        previewRect.top + (previewSize - (previewTextPaint.descent() - previewTextPaint.ascent())) / 2 - previewTextPaint.ascent(),
+                        x,
+                        y,
                         previewTextPaint
                     )
                     setPreviewFadeTimeout(300)
@@ -124,8 +129,9 @@ import androidx.recyclerview.widget.RecyclerView
                 indexPaint.textSize = setIndexTextSize * mScaledDensity
                 indexPaint.typeface = setTypeface
                 val sectionHeight =
-                    (mIndexbarRect!!.height() - mIndexBarMarginTop - mIndexBarMarginBottom) / mSections!!.size / 0.75f
-                val paddingTop = (sectionHeight - (indexPaint.descent() - indexPaint.ascent())) / 2
+                    (mIndexbarRect!!.height() - mIndexBarMarginTop - mIndexBarMarginBottom) / mSections!!.size / 0.70f
+                val paddingTop =
+                    (sectionHeight - (indexPaint.descent() - indexPaint.ascent())) / 0.75f
                 for (i in mSections!!.indices) {
                     if (setSetIndexBarHighLightTextVisibility) {
                         if (mCurrentSection > -1 && i == mCurrentSection) {
@@ -143,8 +149,7 @@ import androidx.recyclerview.widget.RecyclerView
                         canvas.drawText(
                             mSections!![i],
                             mIndexbarRect!!.left + paddingLeft,
-//                            mIndexbarRect!!.top + mIndexBarMarginTop + sectionHeight * i + paddingTop - indexPaint.ascent(),
-                            mIndexbarRect!!.top + mIndexBarMarginTop / 2.2f + sectionHeight * i + (paddingTop - indexPaint.ascent()) / 1.8f,
+                            mIndexbarRect!!.top + mIndexBarMarginTop / 2.8f + sectionHeight * i + (paddingTop - indexPaint.ascent()) / 1.2f,
                             indexPaint
                         )
                     } else {
@@ -175,6 +180,7 @@ import androidx.recyclerview.widget.RecyclerView
                     scrollToPosition()
                     return true
                 }
+
             MotionEvent.ACTION_MOVE -> if (mIsIndexing) {
                 // If this event moves inside index bar
                 if (contains(ev.x, ev.y)) {
@@ -184,6 +190,7 @@ import androidx.recyclerview.widget.RecyclerView
                 }
                 return true
             }
+
             MotionEvent.ACTION_UP -> if (mIsIndexing) {
                 mIsIndexing = false
                 mCurrentSection = -1

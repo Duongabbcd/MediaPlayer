@@ -189,7 +189,7 @@ object Constant {
             }
             cursor.close()
         }
-        val sortedList = audioList.sortedBy { it.title }
+        val sortedList = audioList.sortedWith(compareBy(String.CASE_INSENSITIVE_ORDER) { it.title })
         return ArrayList(sortedList).also {
             println("getAllAudioFiles: ${sortedList.size}")
         }

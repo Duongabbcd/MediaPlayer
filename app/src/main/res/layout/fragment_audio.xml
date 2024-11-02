@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -11,46 +9,29 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.recyclerview.widget.RecyclerView
+        <com.example.fastscroll.custom_view.view.WildScrollRecyclerView
             android:id="@+id/audioRv"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:clipToPadding="false"
-            android:paddingBottom="20dp"
-            android:scrollbarThumbVertical="@drawable/scroll_bar_icon"
-            android:scrollbars="vertical"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/alphabetBar"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <in.myinnos.alphabetsindexfastscrollrecycler.IndexFastScrollRecyclerView
-            android:id="@+id/alphabetBar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
-
-        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-            android:id="@+id/shuffle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/white"
-            android:visibility="gone"
-            app:icon="@drawable/shuffle_icon"
-            app:iconSize="35dp"
-            app:iconTint="?attr/themeColor"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.9"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.87"
-            app:strokeColor="?attr/themeColor"
-            app:strokeWidth="2dp" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:wildScroll_highlightColor="@color/colorSecondary"
+            app:wildScroll_highlightTextSize="@dimen/textHighlighted"
+            app:wildScroll_popupBackgroundColor="@color/colorSecondary"
+            app:wildScroll_popupEnable="true"
+            app:wildScroll_popupPadding="@dimen/padding"
+            app:wildScroll_popupTextColor="@color/colorSecondaryLight"
+            app:wildScroll_popupTextSize="@dimen/textPopup"
+            app:wildScroll_sectionBarBackgroundColor="@color/fast_scroller_text"
+            app:wildScroll_sectionBarCollapseDigital="true"
+            app:wildScroll_sectionBarEnable="true"
+            app:wildScroll_sectionBarGravity="right"
+            app:wildScroll_sectionBarPaddingLeft="@dimen/padding"
+            app:wildScroll_sectionBarPaddingRight="@dimen/padding"
+            app:wildScroll_textColor="@color/textSecondary"
+            app:wildScroll_textSize="@dimen/textRegular" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button

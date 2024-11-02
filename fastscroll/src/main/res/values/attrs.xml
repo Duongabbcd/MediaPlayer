@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="FastScroller">
+        <attr name="fs_textSize" format="dimension" />
+        <attr name="fs_textColor" format="color" />
+        <attr name="fs_spacing" format="dimension" />
+        <attr name="fs_sectionWidth" format="dimension" />
+        <attr name="fs_sectionHeight" format="dimension" />
+        <attr name="fs_sensitiveScroll" format="boolean" />
+
+        <attr name="fs_debug" format="boolean" />
+
+        <!-- default attributes override -->
+
+        <attr name="android:background" format="reference" />
+        <attr name="android:padding" format="dimension" />
+        <attr name="android:paddingHorizontal" format="dimension" />
+        <attr name="android:paddingStart" format="dimension" />
+        <attr name="android:paddingLeft" format="dimension" />
+        <attr name="android:paddingEnd" format="dimension" />
+        <attr name="android:paddingRight" format="dimension" />
+        <attr name="android:paddingVertical" format="dimension" />
+        <attr name="android:paddingTop" format="dimension" />
+        <attr name="android:paddingBottom" format="dimension" />
+    </declare-styleable>
+
+
+    <declare-styleable name="WildScroll">
+        <attr name="wildScroll_textColor" format="color" />
+        <attr name="wildScroll_textSize" format="dimension" />
+
+        <attr name="wildScroll_highlightColor" format="color" />
+        <attr name="wildScroll_highlightTextSize" format="dimension" />
+
+        <attr name="wildScroll_sectionBarBackgroundColor" format="color" />
+        <attr name="wildScroll_sectionBarPaddingLeft" format="dimension" />
+        <attr name="wildScroll_sectionBarPaddingRight" format="dimension" />
+        <attr name="wildScroll_sectionBarCollapseDigital" format="boolean" />
+        <attr name="wildScroll_sectionBarGravity" format="enum">
+            <enum name="left" value="0" />
+            <enum name="right" value="1" />
+        </attr>
+        <attr name="wildScroll_sectionBarEnable" format="boolean" />
+        <attr name="wildScroll_sectionBarFirstIndexMarginTop" format="float" />
+        <attr name="wildScroll_sectionBarDrawMarginTop" format="float" />
+
+        <attr name="wildScroll_popupEnable" format="boolean" />
+        <attr name="wildScroll_popupBackgroundDrawable" format="integer" />
+        <attr name="wildScroll_popupBackgroundColor" format="color" />
+        <attr name="wildScroll_popupPadding" format="dimension" />
+        <attr name="wildScroll_popupTextColor" format="color" />
+        <attr name="wildScroll_popupTextSize" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="RecyclerViewFastScroller">
+        <attr name="trackDrawable" format="reference" />
+        <attr name="handleDrawable" format="reference" />
+        <attr name="popupDrawable" format="reference" />
+        <attr name="popupTextStyle" format="reference" />
+        <attr name="fastScrollEnabled" format="boolean" />
+        <attr name="popupPosition" format="enum">
+            <enum name="beforeTrack" value="0" />
+            <enum name="afterTrack" value="1" />
+        </attr>
+        <attr name="addLastItemPadding" format="boolean" />
+        <attr name="fastScrollDirection" format="enum">
+            <enum name="vertical" value="0" />
+            <enum name="horizontal" value="1" />
+        </attr>
+        <attr name="handleWidth" format="dimension" />
+        <attr name="handleHeight" format="dimension" />
+        <attr name="handleHasFixedSize" format="boolean" />
+        <attr name="supportSwipeToRefresh" format="boolean" />
+
+        <attr name="trackMarginStart" format="dimension" />
+        <attr name="trackMarginEnd" format="dimension" />
+
+        <attr name="handleVisibilityDuration" format="integer" />
+    </declare-styleable>
+</resources>
