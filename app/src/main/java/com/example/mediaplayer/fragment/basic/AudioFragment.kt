@@ -1,6 +1,7 @@
 package com.example.mediaplayer.fragment.basic
 
 import android.content.Context.MODE_PRIVATE
+import android.graphics.Typeface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,13 +9,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.fastscroll.custom_view.sections.popup.SectionLetterPopup
 import com.example.mediaplayer.R
 import com.example.mediaplayer.adapter.AudioAdapter
 import com.example.mediaplayer.databinding.FragmentAudioBinding
 import com.example.mediaplayer.model.Audio
 import com.example.mediaplayer.util.Constant
 import com.google.gson.GsonBuilder
-import java.util.Objects
 
 class AudioFragment : Fragment() {
     private lateinit var binding: FragmentAudioBinding
@@ -33,7 +34,6 @@ class AudioFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         scrollToTop()
 
         val editor = requireContext().getSharedPreferences(Constant.CURRENT_PLAY_SONG, MODE_PRIVATE)
@@ -43,7 +43,6 @@ class AudioFragment : Fragment() {
             GsonBuilder().create().fromJson(selectedSong, Audio::class.java)
         } else null
 
-        println("exitApplication 2: $result")
         val audios = mutableListOf<Audio>()
         val header = Audio("", "", "", "", 0L, "", "")
         audios.add(header)
@@ -57,60 +56,41 @@ class AudioFragment : Fragment() {
     }
 
     private fun initialiseUI(audios: MutableList<Audio>, result: Audio?) {
-        binding.alphabetBar.apply {
+        binding.audioRv.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = AudioAdapter(ArrayList(audios), songPath = result )
-            setIndexBarVisibility(false)
-            setIndexTextSize(12)
-            setIndexBarColor(R.color.gray)
-            setIndexBarVisibility(false)
-            setIndexBarCornerRadius(10)
-            setIndexBarTransparentValue(1.toFloat())
-            setIndexBarVerticalMargin(220f)
-            setIndexBarBottomMargin(130f)
-            setIndexBarHorizontalMargin(0f)
-            setPreviewPadding(0)
-            setIndexBarTextColor(R.color.cool_blue)
-            setPreviewTextSize(60)
-            setPreviewColor(R.color.cool_pink)
-            setPreviewTextColor(R.color.yellow)
-            setPreviewTransparentValue(0.6f)
-            setIndexBarStrokeVisibility(true)
-            setIndexBarStrokeWidth(1)
-            setIndexBarWidth(40f)
-            setIndexBarStrokeColor("#00E12213")
-            setIndexBarHighLightTextColor(R.color.black)
-            setIndexBarStrokeVisibility(true)
-            setIndexBarHighLightTextVisibility(true)
-            this.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    super.onScrolled(recyclerView, dx, dy)
-                    setIndexBarVisibility(true)
-                }
-            })
+            textColor = R.color.white
+            textSize = com.example.fastscroll.R.dimen.fastscroll_section_text_size_small
+            textTypeFace = Typeface.SANS_SERIF
+
+            highlightColor = R.color.yellow
+            highlightTextSize =
+                com.example.fastscroll.R.dimen.fastscroll_section_highlight_text_size
+            highlightTextFace = Typeface.DEFAULT_BOLD
+
+            sectionBarPaddingLeft = com.example.fastscroll.R.dimen.fastscroll_section_padding
+            sectionBarPaddingRight = com.example.fastscroll.R.dimen.fastscroll_section_padding
+            sectionBarCollapseDigital = false
+
+            sectionBarDrawMarginTop = 0.15f
+            sectionBarDrawMarginBottom = 0.9f
+            sectionBarModifiedWidth = 0.75f
+            sectionBarModifiedHeight = 50f
+            setIndexBarCornerRadius = 10
+
+            sectionPopup = SectionLetterPopup(
+                context,
+                textColorRes = R.color.black,
+                textSizeDimen = com.example.fastscroll.R.dimen.textPopup,
+                textTypeFace = Typeface.DEFAULT_BOLD,
+                backgroundResource = com.example.fastscroll.R.drawable.background_round,
+                paddingRes = com.example.fastscroll.R.dimen.fastscroll_section_padding
+            )
         }
-
-        Objects.requireNonNull<RecyclerView.LayoutManager>(binding.alphabetBar.layoutManager).scrollToPosition(0)
-    }
-
-
-    private fun getPositionFromData(character: String?): Int {
-        for ((position, audio) in Constant.audioLists.withIndex()) {
-            val letter = "" + audio.title[0]
-            if (letter == "" + character) {
-                return position
-            }
-        }
-        return 0
-    }
-
-    private fun scrollToTopAutomatically(position: Int) {
-        println("scrollToTopAutomatically: $position")
-        (binding.audioRv.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(position, 0)
     }
 
     private fun scrollToTop() {
-        binding.alphabetBar.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        binding.audioRv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy >= 0) {
@@ -124,7 +104,7 @@ class AudioFragment : Fragment() {
         })
 
         binding.moveToTopBtn.setOnClickListener {
-            binding.alphabetBar.smoothScrollToPosition(0)
+            binding.audioRv.smoothScrollToPosition(0)
         }
     }
 

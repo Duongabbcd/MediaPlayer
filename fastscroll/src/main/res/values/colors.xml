@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="fast_scroller_text">#808080</color>
+    <color name="fast_scroller_background">#FFFFFF</color>
+    <color name="black">#050505</color>
+
+    <color name="fastscroll_transparent">#00000000</color>
+    <color name="fastscroll_default_text">#85000000</color>
+    <color name="fastscroll_highlight_text">#d9000000</color>
+    <color name="fastscroll_section_background">#07000000</color>
+    <color name="fastscroll_popup_background">#1c757575</color>
+
+    <color name="colorAccent">#2196F3</color>
+    <color name="colorPrimary">#2196F3</color>
+    <color name="colorPrimaryDark">#0D47A1</color>
+    <color name="colorPrimaryLight">#E3F2FD</color>
+    <color name="colorSecondary">#00BCD4</color>
+    <color name="colorSecondaryDark">#006064</color>
+    <color name="colorSecondaryLight">#E0F7FA</color>
+    <color name="textPrimary">#d8000000</color>
+    <color name="textSecondary">#82000000</color>
+    <color name="divider">#10000000</color>
+
+    <color name="background">#ffffff</color>
+</resources>

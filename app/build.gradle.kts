@@ -68,4 +68,5 @@ dependencies {
 
     implementation(project(":wheelpicker"))
     implementation(project(":alphabeta"))
+    implementation(project(":fastscroll"))
 }
