@@ -5,9 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import com.example.mediaplayer.adapter.SampleItemEffector
-import com.example.mediaplayer.adapter.SampleScrollStateListener
 import com.example.mediaplayer.adapter.TimePickerAdapter
 import com.example.mediaplayer.databinding.FragmentTimePickerBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment

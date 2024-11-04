@@ -91,19 +91,12 @@ class Sections {
         return when {
             name.isEmpty() -> SECTION_SHORT_NAME_DIGITAL
             collapseDigital && TextUtils.isDigitsOnly(name[0].toString()) -> SECTION_SHORT_NAME_DIGITAL
-            name[0].isDigit() -> {
-                SECTION_SHORT_NAME_DIGITAL.also {
-                    println("createShortName is Digit 1: ${name[0]}")
-                }
-            }
+            name[0].isDigit() ->
+                SECTION_SHORT_NAME_DIGITAL
 
-            regex.matchesAt(name, 0) -> name[0].toUpperCase().also {
-                println("createShortName is Regex: ${name[0]}")
-            }
+            regex.matchesAt(name, 0) -> name[0].toUpperCase()
 
-            name.indexOfAny(charArrayOf('[', '@', '{', '(', '%', '!')) >= 0 -> '#'.also {
-                println("createShortName is Digit 2: ${name[0]}")
-            }
+            name.indexOfAny(charArrayOf('[', '@', '{', '(', '%', '!')) >= 0 -> '#'
 
             else -> SECTION_SHORT_NAME_EMPTY
         }

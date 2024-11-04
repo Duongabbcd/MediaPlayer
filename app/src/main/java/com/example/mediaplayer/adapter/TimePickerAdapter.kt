@@ -2,7 +2,6 @@ package com.example.mediaplayer.adapter
 
 import android.animation.ValueAnimator
 import android.content.Context
-import android.graphics.Color
 import android.util.TypedValue
 import android.view.HapticFeedbackConstants
 import android.view.LayoutInflater
@@ -14,8 +13,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.cheonjaeung.powerwheelpicker.android.WheelPicker
 import com.example.mediaplayer.R
 import com.example.mediaplayer.databinding.NumberPickerBinding
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.update
 import kotlin.math.abs
 
 class TimePickerAdapter(isHour: Boolean = false) :
@@ -109,13 +106,3 @@ class SampleItemEffector(
         textView?.setTextSize(TypedValue.COMPLEX_UNIT_SP, 36f)
     }
 }
-
-class SampleScrollStateListener(
-    private val stateFlow: MutableStateFlow<Boolean>
-) : WheelPicker.OnScrollListener() {
-    override fun onScrollStateChanged(wheelPicker: WheelPicker, newState: Int) {
-        val isScrolling = newState != WheelPicker.SCROLL_STATE_IDLE
-        stateFlow.update { isScrolling }
-    }
-}
-

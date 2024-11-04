@@ -1,7 +1,5 @@
 package com.example.mediaplayer.adapter
 
-import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -11,7 +9,7 @@ import com.example.mediaplayer.model.Folder
 class FolderAdapter(
     private val foldersList: ArrayList<Folder>
 ) : RecyclerView.Adapter<FolderAdapter.MyHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FolderAdapter.MyHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyHolder {
         return MyHolder(
             FolderViewBinding.inflate(
                 LayoutInflater.from(
@@ -22,7 +20,7 @@ class FolderAdapter(
         )
     }
 
-    override fun onBindViewHolder(holder: FolderAdapter.MyHolder, position: Int) {
+    override fun onBindViewHolder(holder: MyHolder, position: Int) {
         holder.folderName.text = foldersList[position].folderName
         holder.root.setOnClickListener {
 //            val intent = Intent(context, FoldersActivity::class.java)

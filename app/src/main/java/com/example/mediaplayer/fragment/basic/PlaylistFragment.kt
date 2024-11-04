@@ -60,7 +60,7 @@ class PlaylistFragment : Fragment() {
         binding.playlistRV.layoutManager = GridLayoutManager(requireContext(), 2)
         binding.playlistRV.adapter = adapter
 
-        viewModel.playList.observe(this) { event ->
+        viewModel.playList.observe(viewLifecycleOwner) { event ->
             binding.instructionPA.visibility = if (event) View.VISIBLE else View.GONE
         }
 

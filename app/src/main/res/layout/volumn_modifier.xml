@@ -28,7 +28,7 @@
             android:layout_height="200dp"
             android:progress="50"
             android:progressDrawable="@drawable/bg_custom_seekbar"
-            android:thumb="@drawable/thumb_icon"
+            android:thumb="@drawable/volumn_thumb_icon"
             android:rotation="-90"
             android:max="100"/>
     </LinearLayout>

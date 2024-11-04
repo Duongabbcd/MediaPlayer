@@ -9,8 +9,8 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.example.mediaplayer.activity.PlaylistDetailActivity
 import com.example.mediaplayer.R
+import com.example.mediaplayer.activity.PlaylistDetailActivity
 import com.example.mediaplayer.databinding.AlbumViewBinding
 import com.example.mediaplayer.model.Audio
 import com.example.mediaplayer.util.Constant
@@ -48,7 +48,10 @@ class AlbumAdapter(
         val detail = detailInfo[position]
         holder.songName.text = general
         holder.songName.ellipsize = TextUtils.TruncateAt.END
-        holder.noOfSong.text = "${detail.size} songs"
+        holder.noOfSong.text = holder.context.resources.getString(
+            R.string.total_songs_number,
+            detail.size
+        )
         Glide.with(holder.context).load(detail.first().artUri).apply(
             RequestOptions().placeholder(R.drawable.music_player_icon_slash_screen)
                 .error(R.drawable.music_player_icon_slash_screen)

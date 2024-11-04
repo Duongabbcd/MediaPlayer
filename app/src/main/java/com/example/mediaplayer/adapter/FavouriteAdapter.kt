@@ -49,7 +49,7 @@ class FavouriteAdapter(
             .centerCrop().into(holder.image)
 
         holder.root.setOnClickListener {
-            sendIntent(ref =Constant.FAVOURITE_ADAPTER, pos = position)
+            sendIntent(ref = Constant.FAVOURITE_ADAPTER, pos = position)
         }
     }
 

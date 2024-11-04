@@ -16,7 +16,7 @@ import com.example.mediaplayer.R
 import java.util.Arrays
 
 
-class  AlphabetBar(context: Context, attrs: AttributeSet) :
+class AlphabetBar(context: Context, attrs: AttributeSet) :
     RecyclerView(context, attrs) {
     //Default Alphabet
     private var alphabet = arrayOf(

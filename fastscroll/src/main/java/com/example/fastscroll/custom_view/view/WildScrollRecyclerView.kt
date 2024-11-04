@@ -17,6 +17,11 @@ import com.example.fastscroll.custom_view.sections.SectionBarView
 import com.example.fastscroll.custom_view.sections.popup.SectionCirclePopup
 import com.example.fastscroll.custom_view.sections.popup.SectionLetterPopup
 import com.example.fastscroll.custom_view.sections.popup.SectionPopup
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class WildScrollRecyclerView @JvmOverloads constructor(
     context: Context,
@@ -24,6 +29,7 @@ class WildScrollRecyclerView @JvmOverloads constructor(
     defStyle: Int = 0
 ) : RecyclerView(context, attrs, defStyle) {
 
+    var stopHiding: Boolean = false
     private var customCanvas: Canvas = Canvas()
     private val sectionBar = SectionBarView(this)
 
@@ -344,26 +350,27 @@ class WildScrollRecyclerView @JvmOverloads constructor(
     override fun setAdapter(adapter: Adapter<*>?) {
         sectionBar.invalidateLayout(adapter)
         super.setAdapter(adapter)
+        sectionBar.fadeOutSectionBar(255, 0)
     }
 
-    fun release() {
-        adapter?.unregisterAdapterDataObserver(dataObserver)
-    }
-
-    private val dataObserver = object : AdapterDataObserver() {
-        override fun onChanged() {
-            println("onChanged")
-            sectionBar.invalidateLayout(adapter)
-            super.onChanged()
-        }
-    }
-
+    var delayJob = Job()
     override fun onScrollStateChanged(state: Int) {
         super.onScrollStateChanged(state)
-        if (state == SCROLL_STATE_DRAGGING) {
-            sectionBar.draw(customCanvas, false)
-        } else {
-            sectionBar.draw(customCanvas, true)
+        when (state) {
+            SCROLL_STATE_IDLE -> {
+                delayJob = Job()
+                CoroutineScope(Dispatchers.Main + delayJob).launch {
+                    delay(1500)
+                    stopHiding = false
+                    sectionBar.fadeOutSectionBar(255, 0)
+                }
+            }
+
+            SCROLL_STATE_DRAGGING, SCROLL_STATE_SETTLING -> {
+                delayJob.cancel()
+                stopHiding = true
+                sectionBar.fadeOutSectionBar(0, 255)
+            }
         }
     }
 }

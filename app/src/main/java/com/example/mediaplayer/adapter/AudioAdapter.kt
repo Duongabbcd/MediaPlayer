@@ -28,11 +28,7 @@ class AudioAdapter(
     private var songPath: Audio? = null
 
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), SectionFastScroll {
-
     private lateinit var context: Context
-
-    private var sectionsTranslator = HashMap<Int, Int>()
-    private var mSectionPositions: ArrayList<Int>? = null
 
     class AudioView(binding: AudioViewBinding) : RecyclerView.ViewHolder(binding.root) {
         val title = binding.songNameMV

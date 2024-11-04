@@ -4,6 +4,11 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.Intent
+import android.content.res.Resources
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.os.Build
@@ -13,6 +18,8 @@ import android.provider.MediaStore
 import android.view.MotionEvent
 import android.view.View
 import android.view.View.OnTouchListener
+import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.cheonjaeung.powerwheelpicker.android.WheelPicker
 import com.example.mediaplayer.MainActivity
@@ -373,6 +380,37 @@ object Constant {
                 }
             }
         })
+    }
+
+    @SuppressLint("Range")
+    fun getThumb(
+        progress: Int,
+        max: Int,
+        textView: TextView,
+        seekBar: View,
+        resources: Resources
+    ): Drawable {
+        val currentTime = formatDuration(progress.toLong())
+        val totalTime = formatDuration(max.toLong())
+        println("getThumb: $progress and $max")
+        textView.text = "$currentTime/$totalTime"
+        val spec = View.MeasureSpec.makeMeasureSpec(
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            View.MeasureSpec.UNSPECIFIED
+        )
+        seekBar.measure(spec, spec)
+
+        val bitmap = Bitmap.createBitmap(
+            seekBar.measuredWidth,
+            seekBar.measuredHeight,
+            Bitmap.Config.ARGB_8888
+        )
+        val canvas = Canvas(bitmap)
+
+        seekBar.layout(0, 0, seekBar.measuredWidth, seekBar.measuredHeight)
+        seekBar.draw(canvas)
+
+        return BitmapDrawable(resources, bitmap)
     }
 
     //audio lists

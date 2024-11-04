@@ -1,5 +1,7 @@
 package com.example.fastscroll.custom_view.sections
 
+import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Rect
@@ -12,6 +14,11 @@ import com.example.fastscroll.custom_view.sections.fastscroll.FastScroll
 import com.example.fastscroll.custom_view.sections.popup.SectionCirclePopup
 import com.example.fastscroll.custom_view.sections.popup.SectionPopup
 import com.example.fastscroll.custom_view.view.WildScrollRecyclerView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlin.math.max
 
 class SectionBarView(val recyclerView: WildScrollRecyclerView) {
@@ -126,6 +133,15 @@ class SectionBarView(val recyclerView: WildScrollRecyclerView) {
             field = value
         }
 
+    var alphaValue: Int = 0
+        set(value) {
+            sectionsPaint.alpha = value
+            textPaint.alpha = value
+            highLightTextPaint.alpha = value
+            invalidateSectionBar() // Redraw the view
+        }
+
+
     var sectionBarEnable: Boolean = true
     var popupEnable: Boolean = true
 
@@ -224,6 +240,29 @@ class SectionBarView(val recyclerView: WildScrollRecyclerView) {
     }
 
     fun onTouchEvent(ev: MotionEvent): Boolean {
+        when (ev.action) {
+            MotionEvent.ACTION_DOWN, MotionEvent.ACTION_MOVE -> {
+                popupEnable = true
+
+                recyclerView.delayJob.cancel()
+                recyclerView.stopHiding = true
+                this.fadeOutSectionBar(0, 255)
+            }
+
+            MotionEvent.ACTION_UP -> {
+                recyclerView.delayJob = Job()
+                CoroutineScope(Dispatchers.Main + recyclerView.delayJob).launch {
+                    delay(1500)
+                    recyclerView.stopHiding = false
+                    this@SectionBarView.fadeOutSectionBar(255, 0)
+                }
+            }
+
+            else -> {
+
+            }
+
+        }
         return fastScroll.onTouchEvent(ev, firstIndexHeight, heightDiff)
     }
 
@@ -287,5 +326,38 @@ class SectionBarView(val recyclerView: WildScrollRecyclerView) {
                 invalidateSectionBar()
             }
         })
+    }
+
+    @SuppressLint("ObjectAnimatorBinding")
+    fun fadeOutSectionBar(start: Int, end: Int) {
+        // From fully opaque to transparent (from 255 to 0)
+        var startAnim = start
+        var endAnim = end
+
+        if (recyclerView.stopHiding) {
+            val max = max(startAnim, endAnim)
+            endAnim = max
+            startAnim = max
+        }
+
+        val fadeOut = ObjectAnimator.ofInt(
+            this,
+            "alphaValue", startAnim, endAnim
+        )
+        if (start > end) {
+            fadeOut.duration = 500
+            fadeOut.addUpdateListener { animator ->
+                val customAlphaValue = animator.animatedValue as Int
+                alphaValue = customAlphaValue
+            }
+
+        } else {
+            fadeOut.duration = 500
+            fadeOut.addUpdateListener { animator ->
+                val customAlphaValue = animator.animatedValue as Int
+                alphaValue = customAlphaValue
+            }
+        }
+        fadeOut.start()
     }
 }

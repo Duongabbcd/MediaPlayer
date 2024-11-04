@@ -5,11 +5,11 @@ import android.content.Context
 import android.content.Intent
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.example.mediaplayer.R
 import com.example.mediaplayer.activity.PlayerActivity
+import com.example.mediaplayer.activity.PlayerActivity.Companion.binding
 import com.example.mediaplayer.activity.PlayerActivity.Companion.musicListPA
 import com.example.mediaplayer.activity.PlayerActivity.Companion.songPosition
-import com.example.mediaplayer.R
-import com.example.mediaplayer.activity.PlayerActivity.Companion.binding
 import com.example.mediaplayer.application.MusicApplication
 import com.example.mediaplayer.fragment.bottomsheet.NowPlayingFragment
 import com.example.mediaplayer.util.Constant
@@ -39,7 +39,7 @@ class NotificationReceiver : BroadcastReceiver() {
         PlayerActivity.isPlaying = true
         PlayerActivity.musicService!!.mediaPlayer!!.start()
         PlayerActivity.musicService!!.showNotification(R.drawable.pause_icon)
-        PlayerActivity.binding.playPauseBtnPA.setIconResource(R.drawable.pause_icon)
+        binding.playPauseBtnPA.setIconResource(R.drawable.pause_icon)
         //for handling app crash during notification play - pause btn (While app opened through intent)
         try {
             NowPlayingFragment.binding.image.setImageResource(R.drawable.pause_icon)
@@ -51,7 +51,7 @@ class NotificationReceiver : BroadcastReceiver() {
         PlayerActivity.isPlaying = false
         PlayerActivity.musicService!!.mediaPlayer!!.pause()
         PlayerActivity.musicService!!.showNotification(R.drawable.play_icon)
-        PlayerActivity.binding.playPauseBtnPA.setIconResource(R.drawable.play_icon)
+        binding.playPauseBtnPA.setIconResource(R.drawable.play_icon)
         //for handling app crash during notification play - pause btn (While app opened through intent)
         try {
             NowPlayingFragment.binding.image.setImageResource(R.drawable.play_icon)
@@ -69,8 +69,8 @@ class NotificationReceiver : BroadcastReceiver() {
                     .error(R.drawable.music_player_icon_slash_screen)
                     .centerCrop()
             )
-            .into(PlayerActivity.binding.songImgPA)
-        PlayerActivity.binding.songNamePA.text = musicListPA[songPosition].title
+            .into(binding.songImgPA)
+        binding.songNamePA.text = musicListPA[songPosition].title
 
         Glide.with(context)
             .load(musicListPA[songPosition].artUri)

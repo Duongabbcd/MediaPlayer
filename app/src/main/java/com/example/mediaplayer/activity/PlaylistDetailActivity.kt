@@ -51,6 +51,7 @@ class PlaylistDetailActivity : AppCompatActivity() {
             PlaylistFragment.musicPlaylist.ref[currentPlaylistPos].playlist =
                 checkPlaylist(playlist = PlaylistFragment.musicPlaylist.ref[currentPlaylistPos].playlist)
         } catch (e: Exception) {
+
         }
 
 

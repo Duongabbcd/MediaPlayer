@@ -158,11 +158,12 @@
             android:text="@string/start_tv"
             android:gravity="center"/>
 
-        <androidx.appcompat.widget.AppCompatSeekBar
+        <SeekBar
             android:id="@+id/seekBarPA"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:progressTint="@color/orange"
             tools:ignore="NestedWeights" />
 
         <TextView
@@ -201,7 +202,7 @@
             android:max="100"
             android:progress="0"
             android:progressTint="@color/cool_pink"
-            android:thumb="@drawable/thumb_icon"
+            android:thumb="@drawable/volumn_thumb_icon"
             android:layout_marginEnd="-40dp"
             android:rotation="270" />
 

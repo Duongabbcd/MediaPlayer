@@ -13,14 +13,15 @@ import android.os.Bundle
 import android.os.IBinder
 import android.os.PowerManager
 import android.provider.Settings
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.SeekBar
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.example.mediaplayer.MainActivity
 import com.example.mediaplayer.R
 import com.example.mediaplayer.databinding.ActivityPlayerBinding
 import com.example.mediaplayer.fragment.basic.PlaylistFragment
@@ -57,23 +58,24 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCom
     private lateinit var editor: SharedPreferences.Editor
     private var displayVolumnBtn = false
 
-//    private lateinit var myBroadcastReceiver: AudioReceiver
+    private lateinit var thumbView: View
+    private lateinit var textView: TextView
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTheme(R.style.coolPinkNav)
+
+        thumbView = LayoutInflater.from(this).inflate(R.layout.player_thumb_background, null, false)
+
         binding = ActivityPlayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
         editor = getSharedPreferences(Constant.REPEAT, MODE_PRIVATE).edit()
 
         initializeLayout()
         binding.backBtnPA.setOnClickListener {
-//            val intent = Intent("com.example.ACTION_SEND_DATA")
-//            intent.putExtra(Constant.SONG_POSITION, songPosition)
-//            sendBroadcast(intent)
             finish()
         }
-        println("PlayerActivity onCreate")
 
         binding.playPauseBtnPA.setOnClickListener {
             if (isPlaying) pauseMusic() else playMusic()
@@ -87,11 +89,23 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCom
             prevNextSong(increment = true)
         }
 
+        val max = binding.seekBarPA.max
+        textView = thumbView.findViewById(R.id.tvProgress)
+        binding.seekBarPA.thumb = Constant.getThumb(0, max, textView, thumbView, resources)
+
         binding.seekBarPA.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if (fromUser) {
                     musicService!!.mediaPlayer!!.seekTo(progress)
                     musicService!!.showNotification(if (isPlaying) R.drawable.pause_icon else R.drawable.play_icon)
+                    binding.seekBarPA.thumb =
+                        Constant.getThumb(
+                            musicService!!.mediaPlayer!!.currentPosition,
+                            max,
+                            textView,
+                            thumbView,
+                            resources
+                        )
                 }
             }
 
@@ -106,7 +120,7 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCom
 
         binding.favouriteBtnPA.setOnClickListener {
             fIndex = Constant.favouriteChecker(musicListPA[songPosition].id)
-            if(isFavourite) {
+            if (isFavourite) {
                 isFavourite = false
                 binding.favouriteBtnPA.setImageResource(R.drawable.favourite_empty_icon)
                 FavouriteActivity.favouriteSongs.removeAt(fIndex)
@@ -119,10 +133,41 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCom
         }
     }
 
+    private fun updateThumbViewAutomatically(max: Int, textView: TextView) {
+        // Start a thread to update SeekBar and current time
+        Thread {
+            if (musicService!!.mediaPlayer == null) {
+                createMediaPlayer()
+            }
+            try {
+                while (musicService!!.mediaPlayer!!.isPlaying) {
+
+                    // Update SeekBar progress and current time TextView
+                    binding.seekBarPA.progress = musicService!!.mediaPlayer!!.currentPosition
+
+                    // Update the UI thread
+                    runOnUiThread {
+                        binding.seekBarPA.thumb =
+                            Constant.getThumb(
+                                musicService!!.mediaPlayer!!.currentPosition,
+                                max,
+                                textView,
+                                thumbView,
+                                resources
+                            )
+                    }
+                    // Sleep to update every second
+                    Thread.sleep(800)
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }.start()
+    }
+
     private fun setFavouriteSongs() {
         val editor = getSharedPreferences(Constant.FAVOURITE, MODE_PRIVATE).edit()
         val jsonString = GsonBuilder().create().toJson(FavouriteActivity.favouriteSongs)
-        println("onCreate: $jsonString")
         editor.putString(Constant.FAVOURITE_SONGS, jsonString)
         editor.commit()
         Constant.getFavouriteSongs(this)
@@ -138,7 +183,8 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCom
             displayVolumnBtn = !displayVolumnBtn
             binding.volumnModifier.visibility = if (displayVolumnBtn) View.VISIBLE else View.GONE
 
-            val maxVolume = musicService!!.audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
+            val maxVolume =
+                musicService!!.audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
             binding.volumeSeekbar.max = maxVolume
             binding.volumeSeekbar.progress =
                 musicService!!.audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
@@ -205,7 +251,7 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCom
     private fun setLayout() {
         fIndex = Constant.favouriteChecker(musicListPA[songPosition].id)
         isFavourite = Constant.currentFavouriteSong.contains(musicListPA[songPosition])
-        println("setLayout: $isFavourite")
+
         val editor = getSharedPreferences(Constant.CURRENT_PLAY_SONG, MODE_PRIVATE).edit()
         val currentPlayingSong: String = GsonBuilder().create().toJson(musicListPA[songPosition])
         editor.putString(Constant.SONG_POSITION, currentPlayingSong)
@@ -228,7 +274,7 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCom
             )
         )
 
-        if(isFavourite) binding.favouriteBtnPA.setImageResource(R.drawable.favourite_icon)
+        if (isFavourite) binding.favouriteBtnPA.setImageResource(R.drawable.favourite_icon)
         else binding.favouriteBtnPA.setImageResource(R.drawable.favourite_empty_icon)
     }
 
@@ -273,32 +319,34 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCom
             }
 
             ALBUM_AND_ARTIST -> {
-                initServiceAndPlayList( PlaylistDetailActivity.audioList,false)
+                initServiceAndPlayList(PlaylistDetailActivity.audioList, false)
             }
 
             PLAYLIST_DETAILS_ADAPTER -> {
-                initServiceAndPlayList(  PlaylistFragment.musicPlaylist.ref
-                    [PlaylistDetailActivity.currentPlaylistPos].playlist,false)
+                initServiceAndPlayList(
+                    PlaylistFragment.musicPlaylist.ref
+                        [PlaylistDetailActivity.currentPlaylistPos].playlist, false
+                )
             }
 
             FAVOURITE_ADAPTER -> {
                 isFavourite = true
-                initServiceAndPlayList(FavouriteActivity.favouriteSongs,false)
+                initServiceAndPlayList(FavouriteActivity.favouriteSongs, false)
             }
 
             AUDIO_FRAGMENT -> {
-                initServiceAndPlayList(Constant.audioLists,true)
+                initServiceAndPlayList(Constant.audioLists, true)
             }
 
             FAVOURITE_SHUFFLE -> {
                 isFavourite = true
-                initServiceAndPlayList(FavouriteActivity.favouriteSongs,true)
+                initServiceAndPlayList(FavouriteActivity.favouriteSongs, true)
             }
 
             PLAYLIST_DETAILS_SHUFFLE -> {
-                initServiceAndPlayList(PlaylistDetailActivity.audioList,true)
+                initServiceAndPlayList(PlaylistDetailActivity.audioList, true)
             }
-            
+
         }
     }
 
@@ -307,6 +355,8 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCom
         isPlaying = true
         musicService!!.showNotification(R.drawable.pause_icon)
         musicService!!.mediaPlayer!!.start()
+
+        updateThumbViewAutomatically(musicService!!.mediaPlayer!!.duration, textView)
     }
 
     private fun pauseMusic() {
@@ -331,7 +381,7 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCom
     private fun createMediaPlayer() {
         val duration = musicListPA[songPosition].duration
         val formatedDuration = formatDuration(musicListPA[songPosition].duration)
-        println("createMediaPlayer: $formatedDuration")
+
         binding.tvSeekBarEnd.text = formatedDuration
         binding.seekBarPA.progress = 0
         binding.seekBarPA.max = duration.toInt()
@@ -374,9 +424,8 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCom
         musicListPA.addAll(
             playList
         )
-        if(shuffle) musicListPA.shuffle()
+        if (shuffle) musicListPA.shuffle()
         setLayout()
-//        createMediaPlayer()
     }
 
 

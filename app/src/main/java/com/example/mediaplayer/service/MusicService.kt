@@ -20,6 +20,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.mediaplayer.R
 import com.example.mediaplayer.activity.PlayerActivity
+import com.example.mediaplayer.activity.PlayerActivity.Companion.binding
 import com.example.mediaplayer.activity.PlayerActivity.Companion.musicListPA
 import com.example.mediaplayer.activity.PlayerActivity.Companion.songPosition
 import com.example.mediaplayer.application.MusicApplication
@@ -193,14 +194,14 @@ class MusicService : Service(), AudioManager.OnAudioFocusChangeListener {
                 it.setDataSource(musicListPA[currentAudioPosition].path)
                 it.prepare()
             }
-            PlayerActivity.binding.playPauseBtnPA.setIconResource(R.drawable.pause_icon)
+            binding.playPauseBtnPA.setIconResource(R.drawable.pause_icon)
             showNotification(R.drawable.pause_icon)
-            PlayerActivity.binding.tvSeekBarStart.text =
+            binding.tvSeekBarStart.text =
                 formatDuration(mediaPlayer!!.currentPosition.toLong())
-            PlayerActivity.binding.tvSeekBarEnd.text =
+            binding.tvSeekBarEnd.text =
                 formatDuration(mediaPlayer!!.duration.toLong())
-            PlayerActivity.binding.seekBarPA.progress = 0
-            PlayerActivity.binding.seekBarPA.max = mediaPlayer!!.duration
+            binding.seekBarPA.progress = 0
+            binding.seekBarPA.max = mediaPlayer!!.duration
         } catch (e: Exception) {
             return
         }
@@ -208,9 +209,9 @@ class MusicService : Service(), AudioManager.OnAudioFocusChangeListener {
 
     fun seekBarSetup() {
         runnable = Runnable {
-            PlayerActivity.binding.tvSeekBarStart.text =
+            binding.tvSeekBarStart.text =
                 formatDuration(mediaPlayer!!.currentPosition.toLong())
-            PlayerActivity.binding.seekBarPA.progress = mediaPlayer!!.currentPosition
+            binding.seekBarPA.progress = mediaPlayer!!.currentPosition
 
             Handler(Looper.getMainLooper()).postDelayed(runnable, 300)
         }
@@ -227,7 +228,7 @@ class MusicService : Service(), AudioManager.OnAudioFocusChangeListener {
     }
 
     private fun playMusic() {
-        PlayerActivity.binding.playPauseBtnPA.setIconResource(R.drawable.pause_icon)
+        binding.playPauseBtnPA.setIconResource(R.drawable.pause_icon)
         NowPlayingFragment.binding.image.setImageResource(R.drawable.pause_icon)
         PlayerActivity.isPlaying = true
         mediaPlayer?.start()
@@ -235,7 +236,7 @@ class MusicService : Service(), AudioManager.OnAudioFocusChangeListener {
     }
 
     private fun pauseMusic() {
-        PlayerActivity.binding.playPauseBtnPA.setIconResource(R.drawable.play_icon)
+        binding.playPauseBtnPA.setIconResource(R.drawable.play_icon)
         NowPlayingFragment.binding.image.setImageResource(R.drawable.play_icon)
         PlayerActivity.isPlaying = false
         mediaPlayer?.pause()
@@ -253,9 +254,9 @@ class MusicService : Service(), AudioManager.OnAudioFocusChangeListener {
                     .error(R.drawable.music_player_icon_slash_screen)
                     .centerCrop()
             )
-            .into(PlayerActivity.binding.songImgPA)
+            .into(binding.songImgPA)
 
-        PlayerActivity.binding.songNamePA.text = musicListPA[songPosition].title
+        binding.songNamePA.text = musicListPA[songPosition].title
 
         Glide.with(context).load(musicListPA[songPosition].artUri)
             .apply(
