@@ -24,5 +24,4 @@ dependencyResolutionManagement {
 rootProject.name = "MediaPlayer"
 include(":app")
 include(":wheelpicker")
-include(":alphabeta")
 include(":fastscroll")

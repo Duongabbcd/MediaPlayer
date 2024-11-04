@@ -67,6 +67,5 @@ dependencies {
     implementation(libs.gson)
 
     implementation(project(":wheelpicker"))
-    implementation(project(":alphabeta"))
     implementation(project(":fastscroll"))
 }
