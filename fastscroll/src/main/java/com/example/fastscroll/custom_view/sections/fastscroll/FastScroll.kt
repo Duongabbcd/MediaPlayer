@@ -59,6 +59,8 @@ class FastScroll(private val sectionBar: SectionBarView) {
 
                 if (!isScrolling && sections.contains(ev.x, ev.y)) {
                     val sectionIndex = getSectionIndex(ev.y, firstIndexHeight, heightDiff)
+                    println("sectionIndex: $sectionIndex")
+                    println("sectionIndex: ${sections.getSectionInfoByIndex(sectionIndex)}")
                     val sectionInfo = sections.getSectionInfoByIndex(sectionIndex)
 
                     if (sectionInfo != null) {
@@ -87,6 +89,14 @@ class FastScroll(private val sectionBar: SectionBarView) {
                         val dY = ev.y - sections.height * sectionIndex
                         val sectionProgress = dY / sections.height
                         val dPosition = sectionInfo.count * sectionProgress
+                        val position = round(sectionInfo.position + dPosition).toInt()
+                        println(
+                            "FastScroll ACTION MOVE: $sectionIndex and ${
+                                sections.getSectionInfoByIndex(
+                                    sectionIndex
+                                )
+                            } and $position"
+                        )
                         scrollToPosition(sectionInfo.position)
                         sections.selected = sectionIndex
                         sectionBar.invalidateSectionBar()

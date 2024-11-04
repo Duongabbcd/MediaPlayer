@@ -95,6 +95,11 @@ class SectionBarView(val recyclerView: WildScrollRecyclerView) {
             field.onDismissListener = { invalidateSectionPopup() }
         }
 
+    var firstIndexMarginTop: Float = 0f
+        set(value) {
+            field = value
+        }
+
     var drawMarginTop: Float = 0f
         set(value) {
             field = value
